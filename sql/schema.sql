@@ -1,4 +1,5 @@
 TABLE users (
+    id serial PRIMARY KEY,
     name text,
     username text,
     email text,
@@ -18,7 +19,7 @@ TABLE exercises (
     sets int,
     reps int,
     completed bool default false,
-    routine int REFERENCES routine(id)
+    routine_id int REFERENCES routine(id)
 );
 
 TABLE posts (
