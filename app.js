@@ -27,9 +27,11 @@ const usersController = require('./routes/users');
 const routinesController = require('./routes/routines');
 const postsController = require('./routes/posts');
 const exercisesController = require('./routes/exercises');
+const commentsController = require('./routes/comments');
 
 app.use('/', rootController);
 app.use('/api/v1/users', usersController);
 app.use('/api/v1/routines', routinesController);
 app.use('/api/v1/posts', postsController);
 app.use('/api/v1/exercises', exercisesController);
+app.use('/api/v1/comments', commentsController);
