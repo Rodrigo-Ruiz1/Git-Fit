@@ -43,7 +43,8 @@ CREATE TABLE comments(
     id serial PRIMARY KEY,
     user_id int REFERENCES users(id),
     post_id int REFERENCES posts(id),
-    body text
+    body text,
+    date timestamp DEFAULT NOW()
 );
 
 CREATE TABLE comments_likes(
