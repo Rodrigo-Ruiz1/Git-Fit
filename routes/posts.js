@@ -9,6 +9,11 @@ router.post('/create', async(req, res) => {
     res.json(response).status(200);
 });
 
+router.get('/all/public', async(req, res) => {
+    const response = await PostsModel.getAllPublicPosts();
+    res.json(response).status(200);
+})
+
 router.get('/all/:user_id', async(req, res) => {
     const {user_id} = req.params;
     const response = await PostsModel.getAllPostByUserId(user_id);
@@ -21,14 +26,14 @@ router.get('/:id', async(req, res) => {
     res.json(response).status(200);
 });
 
-router.patch('/public/:id', async(req, res) => {
-    const {id} = req.params;
+router.patch('/public', async(req, res) => {
+    const {id} = req.body;
     const response = await PostsModel.setPostPublic(id);
     res.json(response).status(200);
 });
 
-router.patch('/private/:id', async(req, res) => {
-    const {id} = req.params;
+router.patch('/private', async(req, res) => {
+    const {id} = req.body;
     const response = await PostsModel.setPostPrivate(id);
     res.json(response).status(200);
 });
