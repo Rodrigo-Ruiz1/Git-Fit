@@ -1,4 +1,3 @@
-const { response } = require('express');
 const db = require('./conn');
 
 class PostsModel {
@@ -15,6 +14,17 @@ class PostsModel {
         try {
             const query = `INSERT INTO posts (user_id, content, routine_id) VALUES ('${user_id}', '${content}', '${routine_id}') RETURNING id;`;
             const response = await db.one(query);
+            return response;
+        } catch (error) {
+            console.log('ERROR: ', error);
+            return error;
+        }
+    }
+
+    static async getAllPublicPosts() {
+        try {
+            const query = `SELECT * FROM posts WHERE is_public = true;`;
+            const response = await db.any(query);
             return response;
         } catch (error) {
             console.log('ERROR: ', error);
