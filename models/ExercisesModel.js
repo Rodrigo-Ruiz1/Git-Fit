@@ -1,20 +1,18 @@
 const db = require('./conn');
 
 class ExercisesModel {
-    constructor(id, exercise_id, title, category, sets, reps, completed, routine_id) {
+    constructor(id, name, category, image, description, username) {
         this.id = id;
-        this.exercise_id = exercise_id;
-        this.title = title;
+        this.name = name;
         this.category = category;
-        this.sets = sets;
-        this.reps = reps;
-        this.completed = completed;
-        this.routine_id = routine_id;
+        this.image = image;
+        this.description = description;
+        this.username = username;
     }
 
-    static async addExercise(exercise_id, title, category, sets, reps, routine_id) {
+    static async createExercise(name, category, image, description, username) {
         try {
-            const query = `INSERT INTO exercises (exercise_id, title, category, sets, reps, routine_id) VALUES ('${exercise_id}', '${title}', '${category}', '${sets}', '${reps}', '${routine_id}') RETURNING id;`;
+            const query = `INSERT INTO exercises ( name, category, image, description, username) VALUES ('${name}', ${category}, '${image}', '${description}', '${username}') RETURNING id;`;
             const response = await db.one(query);
             return response;
         } catch (error) {
@@ -23,10 +21,10 @@ class ExercisesModel {
         }
     }
 
-    static async removeExercise(id, routine_id) {
+    static async getAllExercises() {
         try {
-            const query = `DELETE FROM exercises WHERE id = ${id} AND routine_id = ${routine_id};`;
-            const response = await db.one(query);
+            const query = `SELECT * FROM exercises;`;
+            const response = await db.any(query);
             return response;
         } catch (error) {
             console.log('ERROR: ', error);
@@ -34,16 +32,16 @@ class ExercisesModel {
         }
     }
 
-    static async setCompletedStatus(id) {
-        try {
-            const query = `UPDATE exercises SET completed = true WHERE id = ${id};`;
-            const response = await db.one(query);
-            return response;
-        } catch (error) {
-            console.log('ERROR: ', error);
-            return error;
-        }
-    }
+    // static async removeExercise(exercise_id, username) {
+    //     try {
+    //         const query = `DELETE FROM exercises WHERE username = '${username}';`;
+    //         const response = await db.one(query);
+    //         return response;
+    //     } catch (error) {
+    //         console.log('ERROR: ', error);
+    //         return error;
+    //     }
+    // }
 }
 
 module.exports = ExercisesModel;
