@@ -3,6 +3,7 @@ CREATE TABLE users(
     name text,
     username text,
     email text,
+    picture text,
     created_at timestamp DEFAULT NOW()
 );
 
@@ -14,13 +15,26 @@ CREATE TABLE routine(
 
 CREATE TABLE exercises(
     id serial PRIMARY KEY,
-    exercise_id int,
-    title text,
-    category text,
-    sets int,
-    reps int,
-    completed bool default false,
-    routine_id int REFERENCES routine(id)
+    name text,
+    category int,
+    image text,
+    description text,
+    username text
+);
+
+CREATE TABLE routine_exercise(
+    routine_id int REFERENCES routine(id),
+    exercise_id int REFERENCES exercises(id)
+);
+
+CREATE TABLE categories(
+    id serial PRIMARY KEY,
+    category_title text
+);
+
+CREATE TABLE exercise_category(
+    exercise_id int REFERENCES exercises(id),
+    category_id int REFERENCES categories(id)
 );
 
 CREATE TABLE posts(
