@@ -1,7 +1,8 @@
 import React from 'react';
 import { useState } from 'react'
+import {MainDiv, ProfilePic} from '../styled/StyledProfile';
 
-const Profile = ({ currentUser, isAuthenticated }) => {
+const Profile = ({ currentUser, user, isAuthenticated }) => {
     const [button, setButton] = useState('Verify Account');
 
     const verifyUser = async (name, username, email, picture) => {
@@ -21,21 +22,27 @@ const Profile = ({ currentUser, isAuthenticated }) => {
 
     const handleVerify = () => {
         if (button === "Verify Account") {
-            verifyUser(currentUser.nickname, currentUser.nickname, currentUser.email, currentUser.picture);
+            verifyUser(user.nickname, user.nickname, user.email, user.picture);
             setButton('Verified')
         }
     }
 
-    return (
-        <div>
-            {JSON.stringify(currentUser, null, 2)}
-            {isAuthenticated === true ? (
-                <button type="button" onClick={() => handleVerify()}>{button}</button>
+    console.log('user: ', currentUser);
+    console.log(user)
 
+    return (
+        <MainDiv>
+            {/* {JSON.stringify(user, null, 2)} */}
+            {currentUser !== undefined ? (
+                <>
+                <ProfilePic src={currentUser.picture} alt={currentUser.name}></ProfilePic>
+                <h1>{currentUser.name}</h1>
+                <p>Created: {currentUser.created_at}</p>
+                </>
             ) : (
-                null
+                <button type="button" onClick={() => handleVerify()}>{button}</button>
             )}
-        </div>
+        </MainDiv>
     )
 };
 
