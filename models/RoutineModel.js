@@ -29,9 +29,20 @@ class RoutineModel {
         }
     }
 
+    static async getRoutineInfo(user_id) {
+        try {
+            const query = `SELECT * FROM routine WHERE user_id = ${user_id};`;
+            const response = await db.any(query);
+            return response;
+        } catch (error) {
+            console.log('ERROR: ', error);
+            return error;
+        }
+    }
+
     static async getRoutinesByUserId(user_id) {
         try {
-            const query = `SELECT routine.title, routine_exercise.routine_id, routine_exercise.exercise_id, exercises.id FROM routine JOIN routine_exercise on routine.id = routine_exercise.routine_id JOIN exercises on exercises.id = routine_exercise.exercise_id WHERE routine.user_id = ${user_id};`;
+            const query = `SELECT routine.title, exercises.name, routine_exercise.routine_id, routine_exercise.exercise_id, exercises.id FROM routine JOIN routine_exercise on routine.id = routine_exercise.routine_id JOIN exercises on exercises.id = routine_exercise.exercise_id WHERE routine.user_id = ${user_id};`;
             const response = await db.any(query);
             return response;
         } catch (error) {
@@ -64,11 +75,11 @@ class RoutineModel {
 
     static async addExercise(routine_id, exercise_id) {
         try {
-            const query = `INSERT INTO routine_exercise (routine_id, exercise_id) VALUES (${routine_id}, ${exercise_id}) RETURNING id;`;
-            const response = await db.any(query);
+            const query = `INSERT INTO routine_exercise (routine_id, exercise_id) VALUES (${routine_id}, ${exercise_id});`;
+            const response = await db.one(query);
             return response;
         } catch (error) {
-            console.log('ERROR:', error);
+            console.log('ERROR: ', error);
             return error;
         }
     }

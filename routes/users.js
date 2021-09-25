@@ -16,7 +16,11 @@ router.post('/register', async(req, res) => {
 router.get('/:username', async(req, res) => {
     const {username} = req.params;
     const response = await UsersModel.getUserByUsername(username);
-    res.json(response).status(200);
+    if (response.name === 'QueryResultError') {
+        res.json({message: "Error: no users found"}).status(404);
+    } else {
+        res.json(response).status(200);
+    }
 });
 
 router.patch('/update/pic', async(req, res) => {

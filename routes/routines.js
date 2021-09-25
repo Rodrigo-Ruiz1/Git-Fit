@@ -13,6 +13,12 @@ router.patch('/rename', async(req, res) => {
     const {title, id} = req.body;
     const response = await RoutineModel.renameRoutine(title, id);
     res.json(response).status(200);
+});
+
+router.get('/info/:user_id', async(req, res) => {
+    const {user_id} = req.params;
+    const response = await RoutineModel.getRoutineInfo(user_id);
+    res.json(response).status(200);
 })
 
 router.get('/all/:user_id', async(req, res) => {
